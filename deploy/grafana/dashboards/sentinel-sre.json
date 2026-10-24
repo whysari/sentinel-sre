@@ -1,0 +1,61 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "id": 1,
+      "title": "Incidents Triaged Total",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 4, "x": 0, "y": 0 },
+      "targets": [{ "expr": "sum(sentinel_incidents_triaged_total)", "refId": "A" }]
+    },
+    {
+      "id": 2,
+      "title": "Prompt Injections Neutralized",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 4, "x": 4, "y": 0 },
+      "targets": [{ "expr": "sum(sentinel_prompt_injections_neutralized_total)", "refId": "A" }]
+    },
+    {
+      "id": 3,
+      "title": "Guardrail Blocked Commands",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 4, "x": 8, "y": 0 },
+      "targets": [{ "expr": "sum(sentinel_guardrail_blocked_commands_total)", "refId": "A" }]
+    },
+    {
+      "id": 4,
+      "title": "DR Restore Drills Total",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 4, "x": 0, "y": 6 },
+      "targets": [{ "expr": "sum(sentinel_dr_restore_drills_total)", "refId": "A" }]
+    },
+    {
+      "id": 5,
+      "title": "DR Restore RTO P95 (ms)",
+      "type": "timeseries",
+      "gridPos": { "h": 6, "w": 4, "x": 4, "y": 6 },
+      "targets": [{ "expr": "histogram_quantile(0.95, sum(rate(sentinel_dr_restore_rto_milliseconds_bucket[5m])) by (le))", "refId": "A" }]
+    },
+    {
+      "id": 6,
+      "title": "Triage Latency P95 (ms)",
+      "type": "timeseries",
+      "gridPos": { "h": 6, "w": 4, "x": 8, "y": 6 },
+      "targets": [{ "expr": "histogram_quantile(0.95, sum(rate(sentinel_triage_latency_milliseconds_bucket[5m])) by (le))", "refId": "A" }]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["sre", "sentinel"],
+  "time": { "from": "now-1h", "to": "now" },
+  "timezone": "browser",
+  "title": "Sentinel-SRE Multi-Agent Operations & Zero-Trust Guardrails",
+  "version": 1
+}

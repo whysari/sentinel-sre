@@ -1,0 +1,81 @@
+services:
+  sentinel-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8000:8000"
+    environment:
+      - SENTINEL_DB_PATH=/data/sentinel.db
+      - POSTGRES_DSN=postgresql://sentinel:sentinel@postgres:5432/sentinel
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - sentinel-net
+
+  sentinel-web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_SENTINEL_API_URL=http://localhost:8000
+    depends_on:
+      - sentinel-api
+    networks:
+      - sentinel-net
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=sentinel
+      - POSTGRES_PASSWORD=sentinel
+      - POSTGRES_DB=sentinel
+    volumes:
+      - ./deploy/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sentinel"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sentinel-net
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sentinel-net
+
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./deploy/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./deploy/prometheus/alert_rules.yml:/etc/prometheus/alert_rules.yml:ro
+    networks:
+      - sentinel-net
+
+  grafana:
+    image: grafana/grafana:11.2.0
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./deploy/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./deploy/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    networks:
+      - sentinel-net
+
+networks:
+  sentinel-net:
+    driver: bridge

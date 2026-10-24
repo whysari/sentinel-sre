@@ -1,0 +1,21 @@
+name: Sentinel-SRE Multi-Agent Diagnostics & DR CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify-and-benchmark:
+    name: Unit Tests, Wait-For Graph & 24-Incident Chaos Benchmark
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run Unit Test Suite
+        run: python3 -m unittest discover -s tests -v
+      - name: Execute 24-Scenario Chaos & Zero-Trust Guardrail Benchmark
+        run: python3 benchmarks/run_benchmark.py

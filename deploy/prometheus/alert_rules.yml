@@ -1,0 +1,34 @@
+groups:
+  - name: sentinel-alerts
+    rules:
+      - alert: SentinelPromptInjectionDetected
+        expr: increase(sentinel_prompt_injections_neutralized_total[5m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Adversarial prompt injection intercepted by zero-trust guardrails"
+
+      - alert: SentinelGuardrailUnsafeCommandBlocked
+        expr: increase(sentinel_guardrail_blocked_commands_total[5m]) > 0
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Unsafe or mutating command execution blocked by SRE guardrails"
+
+      - alert: SentinelDrRestoreFailure
+        expr: increase(sentinel_dr_restore_drills_total{status="failed"}[5m]) > 0
+        for: 0m
+        labels:
+          severity: page
+        annotations:
+          summary: "Cryptographic disaster recovery drill failed RTO or checksum verification"
+
+      - alert: SentinelHighTriageLatencyP95
+        expr: histogram_quantile(0.95, rate(sentinel_triage_latency_milliseconds_bucket[5m])) > 50
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Sentinel-SRE multi-agent triage latency P95 exceeded 50ms"

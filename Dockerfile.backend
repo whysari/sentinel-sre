@@ -1,0 +1,36 @@
+FROM python:3.11-slim AS builder
+WORKDIR /build
+
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir --prefix=/install \
+      "fastapi>=0.115.0,<1.0.0" \
+      "uvicorn[standard]>=0.30.0,<1.0.0" \
+      "psycopg[binary]>=3.2.0,<4.0.0" \
+      "redis>=5.0.0,<6.0.0"
+
+COPY sentinel/ /app/sentinel/
+COPY benchmarks/ /app/benchmarks/
+COPY README.md /app/README.md
+
+FROM python:3.11-slim AS runner
+WORKDIR /app
+
+RUN groupadd -g 10001 sentinel && \
+    useradd -u 10001 -g sentinel -s /sbin/nologin -m sentinel && \
+    mkdir -p /data /tmp && chown -R sentinel:sentinel /data /tmp /app
+
+COPY --from=builder /install /usr/local
+COPY --from=builder --chown=sentinel:sentinel /app /app
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONPATH=/app \
+    SENTINEL_DB_PATH=/data/sentinel.db
+
+USER 10001:10001
+EXPOSE 8000
+
+HEALTHCHECK --interval=10s --timeout=5s --start-period=5s --retries=3 \
+  CMD python3 -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/healthz')"
+
+CMD ["python3", "-m", "sentinel.api", "--host", "0.0.0.0", "--port", "8000", "--seed-chaos"]
