@@ -1,9 +1,9 @@
 # Sentinel-SRE: Autonomous Multi-Agent Incident Diagnostics & Verified DR Platform
 
 [![CI & Chaos Benchmark](https://github.com/whysari/sentinel-sre/actions/workflows/ci.yml/badge.svg)](https://github.com/whysari/sentinel-sre/actions/workflows/ci.yml)
-[![Python 3.11+](https://img.shields.io/badge/Python-3.11+-blue?logo=python)](https://www.python.org/)
-[![Next.js 15](https://img.shields.io/badge/Next.js-15_App_Router-black?logo=next.js)](https://nextjs.org/)
-[![TypeScript 5.6](https://img.shields.io/badge/TypeScript-5.6_Strict-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![Python 3.13+](https://img.shields.io/badge/Python-3.13+-blue?logo=python)](https://www.python.org/)
+[![Next.js 16](https://img.shields.io/badge/Next.js-16.4_App_Router-black?logo=next.js)](https://nextjs.org/)
+[![TypeScript 6](https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Zero-Trust Guardrail](https://img.shields.io/badge/Guardrail-100%25%20Read--Only%20Verified-brightgreen)](#zero-trust-guardrails--security)
 
 **Sentinel-SRE** is a full-stack, multi-agent site reliability engineering (SRE) incident triage, distributed systems fault-analysis, and cryptographic disaster-recovery verification platform. It dispatches parallel domain-specialized introspection agents across **OpenStack Neutron OVS/VXLAN overlays**, **PostgreSQL lock wait-for graphs (`pg_locks` / `pg_stat_activity`)**, and **Linux cgroup v2 / Kubelet runtimes**, fusing their telemetry priors with a **Hybrid BM25 + TF-IDF Cosine Runbook RAG engine** via **Reciprocal Rank Fusion (RRF)** under strict `shlex` read-only zero-trust execution guardrails.
@@ -14,10 +14,10 @@
 
 Sentinel-SRE is engineered as a 6-service containerized topology with a zero-dependency local dev fallback:
 
-- **Next.js 15 + React 19 + TypeScript Console (`frontend/`):** Interactive dark-mode SRE Operations Console featuring a layered SVG `pg_locks` Wait-For Graph visualizer (`<WaitForGraphVisualizer />`), live Server-Sent Events (SSE) chaos fault injection (`<ChaosFaultInjectorPanel />`), multi-agent findings matrix (`<AgentFindingsMatrix />`), and zero-trust guardrail & DR audit inspector (`<GuardrailAndDrAuditPanel />`).
-- **Python FastAPI / Threaded WSGI Engine (`sentinel/api.py`):** Exposes REST, SSE streaming (`/api/v1/events/stream`, `/api/v1/chaos/stream/{id}`), and Prometheus text exposition (`/metrics`).
-- **Transactional Persistence (`sentinel/store.py`):** Dual-backend store supporting SQLite WAL (`PRAGMA journal_mode=WAL`, `PRAGMA foreign_keys=ON`) and PostgreSQL 16 (`deploy/postgres/init.sql`) across `incidents`, `dr_verifications`, and `guardrail_audit_log`.
-- **Observability Stack (`deploy/prometheus/`, `deploy/grafana/`):** Prometheus v2.54.1 scraping `/metrics` every 5s with automated alert rules and a 6-panel Grafana 11.2.0 dashboard.
+- **Next.js 16.4 + React 19.3 + TypeScript Console (`frontend/`):** Interactive dark-mode SRE Operations Console featuring a layered SVG `pg_locks` Wait-For Graph visualizer (`<WaitForGraphVisualizer />`), live Server-Sent Events (SSE) chaos fault injection (`<ChaosFaultInjectorPanel />`), multi-agent findings matrix (`<AgentFindingsMatrix />`), and zero-trust guardrail & DR audit inspector (`<GuardrailAndDrAuditPanel />`).
+- **Python 3.13 FastAPI / Threaded WSGI Engine (`sentinel/api.py`):** Exposes REST, SSE streaming (`/api/v1/events/stream`, `/api/v1/chaos/stream/{id}`), and Prometheus text exposition (`/metrics`).
+- **Transactional Persistence (`sentinel/store.py`):** Dual-backend store supporting SQLite WAL (`PRAGMA journal_mode=WAL`, `PRAGMA foreign_keys=ON`) and PostgreSQL 18 (`deploy/postgres/init.sql`) across `incidents`, `dr_verifications`, and `guardrail_audit_log`.
+- **Observability Stack (`deploy/prometheus/`, `deploy/grafana/`):** Prometheus v3.10 scraping `/metrics` every 5s with automated alert rules and a 6-panel Grafana 12.4 dashboard.
 - **Hardened Kubernetes Manifests (`deploy/k8s/sentinel-sre.yaml`):** Restricted Pod Security (`runAsNonRoot: true`, UID `10001`, `readOnlyRootFilesystem: true` with bounded `emptyDir` mounts at `/data` and `/tmp`, `seccompProfile: RuntimeDefault`, dropped `ALL` capabilities, and ingress/egress `NetworkPolicy`).
 
 ```mermaid

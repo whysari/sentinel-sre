@@ -179,7 +179,7 @@ export function DashboardShell() {
 
         <footer className="flex flex-wrap items-center justify-between gap-2 border-t border-white/[0.06] pt-4 pb-2 text-[10px] text-slate-600">
           <span>
-            Sentinel-SRE · FastAPI/WSGI + Next.js 15 App Router + React 19 · strict TypeScript ·{" "}
+            Sentinel-SRE · FastAPI/WSGI + Next.js 16 App Router + React 19.3 · strict TypeScript ·{" "}
             <span className="font-mono">bun test</span> verified
           </span>
           <span className={cn("font-mono", state.offline ? "text-amber-400/70" : "text-emerald-400/70")}>

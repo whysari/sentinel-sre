@@ -31,7 +31,7 @@ services:
       - sentinel-net
 
   postgres:
-    image: postgres:16-alpine
+    image: postgres:18-alpine
     environment:
       - POSTGRES_USER=sentinel
       - POSTGRES_PASSWORD=sentinel
@@ -47,7 +47,7 @@ services:
       - sentinel-net
 
   redis:
-    image: redis:7-alpine
+    image: redis:8-alpine
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
@@ -57,7 +57,7 @@ services:
       - sentinel-net
 
   prometheus:
-    image: prom/prometheus:v2.54.1
+    image: prom/prometheus:v3.10.0
     ports:
       - "9090:9090"
     volumes:
@@ -67,7 +67,7 @@ services:
       - sentinel-net
 
   grafana:
-    image: grafana/grafana:11.2.0
+    image: grafana/grafana:12.4.0
     ports:
       - "3001:3000"
     volumes:
