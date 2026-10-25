@@ -1,10 +1,13 @@
 # Sentinel-SRE: Autonomous Multi-Agent Incident Diagnostics & Verified DR Platform
 
+[![Live Interactive Console](https://img.shields.io/badge/Live_Console-sentinel--sre--iota.vercel.app-10b981?logo=vercel)](https://sentinel-sre-iota.vercel.app)
 [![CI & Chaos Benchmark](https://github.com/whysari/sentinel-sre/actions/workflows/ci.yml/badge.svg)](https://github.com/whysari/sentinel-sre/actions/workflows/ci.yml)
 [![Python 3.13+](https://img.shields.io/badge/Python-3.13+-blue?logo=python)](https://www.python.org/)
-[![Next.js 16](https://img.shields.io/badge/Next.js-16.4_App_Router-black?logo=next.js)](https://nextjs.org/)
-[![TypeScript 6](https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![Next.js 16.4](https://img.shields.io/badge/Next.js-16.4_App_Router-black?logo=next.js)](https://nextjs.org/)
+[![TypeScript 7](https://img.shields.io/badge/TypeScript-7.0_Strict-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Zero-Trust Guardrail](https://img.shields.io/badge/Guardrail-100%25%20Read--Only%20Verified-brightgreen)](#zero-trust-guardrails--security)
+
+> **Live Interactive SRE Console:** **[https://sentinel-sre-iota.vercel.app](https://sentinel-sre-iota.vercel.app)** *(24-scenario chaos fault injector, interactive SVG `pg_locks` Wait-For Graph visualizer, RRF runbook ranker, and SHA-256 DR restore verifier)*
 
 **Sentinel-SRE** is a full-stack, multi-agent site reliability engineering (SRE) incident triage, distributed systems fault-analysis, and cryptographic disaster-recovery verification platform. It dispatches parallel domain-specialized introspection agents across **OpenStack Neutron OVS/VXLAN overlays**, **PostgreSQL lock wait-for graphs (`pg_locks` / `pg_stat_activity`)**, and **Linux cgroup v2 / Kubelet runtimes**, fusing their telemetry priors with a **Hybrid BM25 + TF-IDF Cosine Runbook RAG engine** via **Reciprocal Rank Fusion (RRF)** under strict `shlex` read-only zero-trust execution guardrails.
 
