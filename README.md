@@ -22,7 +22,7 @@ Sentinel-SRE is engineered as a 6-service containerized topology with a zero-dep
 
 ```mermaid
 flowchart TD
-    UI["Next.js 15 + React 19 Console (:3000)"] <-->|REST + SSE| API["Sentinel FastAPI / WSGI Engine (:8000)"]
+    UI["Next.js 16.4 + React 19.3 Console (:3000)"] <-->|REST + SSE| API["Sentinel FastAPI / WSGI Engine (:8000)"]
     API --> Firewall["Prompt-Injection Firewall & shlex Guardrail"]
     Firewall --> Coord["Multi-Agent Coordinator (Parallel Threads)"]
 
@@ -35,10 +35,10 @@ flowchart TD
     Agents --> RRF["Hybrid Runbook RRF Engine (BM25 + TF-IDF)"]
     RRF --> DR["Cryptographic DR Engine (SHA-256 Verified Restore)"]
 
-    API <--> Postgres["PostgreSQL 16 / SQLite WAL Store"]
-    API <--> Redis["Redis 7 Event Bus"]
-    Prom["Prometheus (:9090)"] -->|Scrape /metrics| API
-    Grafana["Grafana (:3001)"] --> Prom
+    API <--> Postgres["PostgreSQL 18 / SQLite WAL Store"]
+    API <--> Redis["Redis 8 Event Bus"]
+    Prom["Prometheus 3.10 (:9090)"] -->|Scrape /metrics| API
+    Grafana["Grafana 12.4 (:3001)"] --> Prom
 ```
 
 ---
@@ -95,12 +95,12 @@ flowchart TD
 ## 5. Quickstart & Verification
 
 ```bash
-# 1. Run Python backend + chaos benchmark + deployment config test suite (29 tests)
+# 1. Run Python backend + chaos benchmark + deployment config test suite (30 tests)
 python3 -m unittest discover -s tests -v
 
-# 2. Run Next.js 15 + TypeScript frontend & live WSGI contract test suite (43 tests, 436 assertions)
+# 2. Run Next.js 16.4 + TypeScript 7 frontend & live WSGI contract test suite (43 tests, 436 assertions)
 cd frontend && bun test
 
-# 3. Launch full 6-service stack (FastAPI + Next.js + Postgres 16 + Redis 7 + Prometheus + Grafana)
+# 3. Launch full 6-service stack (FastAPI + Next.js 16.4 + Postgres 18 + Redis 8 + Prometheus 3.10 + Grafana 12.4)
 docker compose up --build
 ```
